@@ -1018,19 +1018,14 @@
 
   // Form submit
   const form = document.getElementById('contactForm');
-  const toast = document.getElementById('toast');
   form.addEventListener('submit', e => {
-    e.preventDefault();
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     if (!name || !email) {
+      e.preventDefault();
       alert('Por favor completa tu nombre y correo electrónico.');
-      return;
     }
-    // Show toast
-    toast.classList.add('show');
-    form.reset();
-    setTimeout(() => toast.classList.remove('show'), 4500);
+    // Allow native submit to Netlify if validation passes
   });
 
   // Active nav link highlight
