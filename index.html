@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verdant Stone — Landscape Construction</title>
+  <meta name="description" content="Premium landscape construction in Central Valley, California. Patios, hardscape, pavers, and outdoor transformations in Stockton, Tracy, Lathrop & Modesto." />
+  <link rel="canonical" href="https://verdantstonelc.com" />
+  <meta property="og:title" content="Verdant Stone — Landscape Construction" />
+  <meta property="og:description" content="Premium landscape construction in Central Valley, CA. Patios, hardscape, pavers and outdoor transformations." />
+  <meta property="og:url" content="https://verdantstonelc.com" />
+  <meta property="og:type" content="website" />
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green:       #1F3525;
+      --green-mid:   #2D4A35;
+      --stone:       #9C8570;
+      --stone-light: #C8BAA8;
+      --stone-pale:  #F4F0EC;
+      --ink:         #1A1A1A;
+      --white:       #FFFFFF;
+      --serif:       Georgia, 'Palatino Linotype', serif;
+      --sans:        'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── Typography ─── */
+    .serif { font-family: var(--serif); }
+    .label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--stone);
+      font-weight: 400;
+    }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; }
+
+    /* ─── Utility ─── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+    .divider { width: 40px; height: 2px; background: var(--stone); margin: 20px 0; }
+    .divider.center { margin: 20px auto; }
+
+    /* ─── Navigation ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--stone-light);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,.08); }
+    .nav-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 32px;
+      height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo svg { height: 44px; width: auto; }
+    .nav-links {
+      display: flex; gap: 40px; list-style: none;
+    }
+    .nav-links a {
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--ink); font-weight: 400;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--stone); }
+    .nav-cta {
+      font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+      padding: 10px 24px;
+      border: 1px solid var(--green);
+      color: var(--green);
+      transition: background .2s, color .2s;
+    }
+    .nav-cta:hover { background: var(--green); color: var(--white); }
+    .nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .nav-burger span { width: 24px; height: 1.5px; background: var(--ink); transition: .3s; }
+
+    /* ─── Hero ─── */
+    #hero {
+      min-height: 100vh;
+      background: var(--green);
+      display: flex; align-items: center;
+      padding-top: 72px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-texture {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 70% 30%, rgba(156,133,112,.12) 0%, transparent 60%),
+        radial-gradient(circle at 20% 80%, rgba(200,186,168,.08) 0%, transparent 50%);
+    }
+    .hero-strata {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 6px;
+    }
+    .hero-strata span {
+      display: block; height: 2px; background: var(--stone);
+      margin-bottom: 2px; opacity: .5;
+    }
+    .hero-strata span:nth-child(2) { margin-left: 8%; margin-right: 8%; opacity: .35; }
+    .hero-strata span:nth-child(3) { margin-left: 16%; margin-right: 16%; opacity: .2; }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1160px; margin: 0 auto; padding: 80px 32px;
+    }
+    .hero-label { color: var(--stone-light); letter-spacing: 5px; font-size: 11px; text-transform: uppercase; margin-bottom: 32px; }
+    .hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(48px, 7vw, 96px);
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.05;
+      letter-spacing: -1px;
+      margin-bottom: 32px;
+      max-width: 780px;
+    }
+    .hero-h1 em { color: var(--stone); font-style: normal; }
+    .hero-sub {
+      font-size: 16px; line-height: 1.7;
+      color: rgba(255,255,255,.72);
+      max-width: 520px;
+      margin-bottom: 48px;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-block;
+      padding: 16px 36px;
+      background: var(--stone);
+      color: var(--white);
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      transition: background .25s, transform .2s;
+    }
+    .btn-primary:hover { background: #b09580; transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-block;
+      padding: 16px 36px;
+      border: 1px solid rgba(255,255,255,.35);
+      color: var(--white);
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      transition: border-color .25s, background .25s;
+    }
+    .btn-ghost:hover { border-color: var(--white); background: rgba(255,255,255,.06); }
+    .hero-badges {
+      position: absolute; bottom: 48px; right: 32px;
+      display: flex; flex-direction: column; gap: 12px; align-items: flex-end;
+    }
+    .badge {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--stone-light); opacity: .7;
+    }
+
+    /* ─── Section base ─── */
+    section { padding: 100px 0; }
+
+    /* ─── Quiénes somos ─── */
+    #about { background: var(--white); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .about-text .label { margin-bottom: 16px; }
+    .about-text h2 { font-size: clamp(32px, 4vw, 52px); line-height: 1.15; margin-bottom: 24px; }
+    .about-text p {
+      font-size: 16px; line-height: 1.8; color: #555; margin-bottom: 20px;
+    }
+    .about-visual {
+      background: var(--stone-pale);
+      padding: 56px;
+      border-left: 3px solid var(--stone);
+      position: relative;
+    }
+    .about-quote {
+      font-family: var(--serif);
+      font-size: clamp(22px, 2.5vw, 32px);
+      line-height: 1.45;
+      color: var(--green);
+      margin-bottom: 24px;
+    }
+    .about-quote-attr {
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--stone);
+    }
+    .about-icon {
+      position: absolute; top: -20px; right: 32px;
+      opacity: .15;
+    }
+
+    /* ─── Misión ─── */
+    #mission { background: var(--green); }
+    .mission-inner { text-align: center; max-width: 780px; margin: 0 auto; }
+    .mission-inner .label { color: var(--stone-light); margin-bottom: 20px; }
+    .mission-inner h2 {
+      font-size: clamp(32px, 5vw, 64px);
+      color: var(--white);
+      line-height: 1.1; margin-bottom: 32px;
+    }
+    .mission-inner h2 em { color: var(--stone); font-style: normal; }
+    .mission-inner p { font-size: 17px; line-height: 1.8; color: rgba(255,255,255,.72); margin-bottom: 20px; }
+    .mission-pillars {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      margin-top: 72px;
+      background: rgba(255,255,255,.1);
+    }
+    .pillar {
+      background: var(--green);
+      padding: 40px 32px;
+      text-align: center;
+      transition: background .25s;
+    }
+    .pillar:hover { background: var(--green-mid); }
+    .pillar-icon { font-size: 28px; margin-bottom: 16px; }
+    .pillar h3 { font-size: 18px; color: var(--white); margin-bottom: 12px; }
+    .pillar p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,.6); }
+
+    /* ─── Servicios ─── */
+    #services { background: var(--stone-pale); }
+    .services-header { text-align: center; margin-bottom: 64px; }
+    .services-header .label { margin-bottom: 16px; }
+    .services-header h2 { font-size: clamp(28px, 4vw, 48px); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+    }
+    .service-card {
+      background: var(--white);
+      padding: 44px 36px;
+      border-top: 2px solid transparent;
+      transition: border-color .25s, transform .2s;
+    }
+    .service-card:hover { border-color: var(--stone); transform: translateY(-4px); }
+    .service-num {
+      font-family: var(--serif); font-size: 36px; color: var(--stone-light);
+      margin-bottom: 20px; line-height: 1;
+    }
+    .service-card h3 { font-size: 20px; margin-bottom: 12px; color: var(--green); }
+    .service-card p { font-size: 14px; line-height: 1.7; color: #777; }
+
+    /* ─── Portfolio ─── */
+    #portfolio { background: var(--white); }
+    .portfolio-header { text-align: center; margin-bottom: 56px; }
+    .portfolio-header .label { margin-bottom: 16px; }
+    .portfolio-header h2 { font-size: clamp(28px, 4vw, 48px); margin-bottom: 16px; }
+    .portfolio-header p { color: #777; max-width: 480px; margin: 0 auto; font-size: 15px; line-height: 1.7; }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 12px;
+    }
+    .portfolio-item {
+      background: var(--stone-pale);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .portfolio-item:nth-child(1) { grid-column: span 2; }
+    .portfolio-item:nth-child(4) { grid-column: span 2; }
+    .portfolio-placeholder {
+      aspect-ratio: 4/3;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px;
+    }
+    .portfolio-item:nth-child(1) .portfolio-placeholder { aspect-ratio: 16/7; }
+    .portfolio-item:nth-child(4) .portfolio-placeholder { aspect-ratio: 16/7; }
+    .portfolio-placeholder svg { opacity: .25; }
+    .portfolio-placeholder span {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--stone);
+    }
+    .portfolio-overlay {
+      position: absolute; inset: 0;
+      background: rgba(31,53,37,.88);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .3s;
+    }
+    .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-overlay h4 { font-family: var(--serif); font-size: 20px; color: var(--white); margin-bottom: 8px; }
+    .portfolio-overlay p { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--stone-light); }
+    .portfolio-cta { text-align: center; margin-top: 48px; }
+    .portfolio-note {
+      display: inline-block;
+      padding: 14px 32px;
+      background: var(--stone-pale);
+      border: 1px dashed var(--stone-light);
+      font-size: 13px; color: var(--stone);
+      letter-spacing: 1px;
+    }
+
+    /* ─── Por qué elegirnos ─── */
+    #why { background: var(--stone-pale); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .why-left .label { margin-bottom: 16px; }
+    .why-left h2 { font-size: clamp(28px, 4vw, 48px); line-height: 1.15; margin-bottom: 24px; }
+    .why-left p { font-size: 16px; line-height: 1.8; color: #666; }
+    .why-list { list-style: none; }
+    .why-list li {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--stone-light);
+      display: flex; gap: 20px; align-items: flex-start;
+    }
+    .why-list li:first-child { border-top: 1px solid var(--stone-light); }
+    .why-check {
+      width: 28px; height: 28px; flex-shrink: 0;
+      background: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px;
+    }
+    .why-check svg { width: 14px; height: 14px; }
+    .why-list li h4 { font-size: 16px; margin-bottom: 6px; color: var(--green); }
+    .why-list li p { font-size: 14px; line-height: 1.6; color: #777; }
+
+    /* ─── Área de servicio ─── */
+    #area {
+      background: var(--green);
+      padding: 80px 0;
+    }
+    .area-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .area-text .label { color: var(--stone-light); margin-bottom: 16px; }
+    .area-text h2 { font-size: clamp(28px, 4vw, 44px); color: var(--white); margin-bottom: 20px; }
+    .area-text p { font-size: 15px; line-height: 1.8; color: rgba(255,255,255,.7); margin-bottom: 32px; }
+    .city-list {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; list-style: none;
+    }
+    .city-list li {
+      padding: 14px 20px;
+      background: rgba(255,255,255,.07);
+      border-left: 2px solid var(--stone);
+      font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--white);
+    }
+    .area-map {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 12px;
+    }
+    .area-map p { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,.3); }
+
+    /* ─── Contacto ─── */
+    #contact { background: var(--white); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+    .contact-info .label { margin-bottom: 16px; }
+    .contact-info h2 { font-size: clamp(28px, 4vw, 44px); margin-bottom: 24px; }
+    .contact-info p { font-size: 16px; line-height: 1.8; color: #666; margin-bottom: 40px; }
+    .contact-detail {
+      display: flex; gap: 16px; align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    .contact-detail-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: var(--stone-pale);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .contact-detail-icon svg { width: 18px; height: 18px; stroke: var(--stone); fill: none; stroke-width: 1.5; }
+    .contact-detail-text strong { display: block; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+    .contact-detail-text span { font-size: 15px; color: #555; }
+    .contact-form { background: var(--stone-pale); padding: 48px; }
+    .contact-form h3 { font-family: var(--serif); font-size: 24px; margin-bottom: 32px; color: var(--green); }
+    .form-group { margin-bottom: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    label {
+      display: block; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--stone); margin-bottom: 8px;
+    }
+    input, textarea, select {
+      width: 100%; padding: 14px 16px;
+      background: var(--white);
+      border: 1px solid var(--stone-light);
+      font-family: var(--sans); font-size: 15px; color: var(--ink);
+      transition: border-color .2s;
+      -webkit-appearance: none; appearance: none;
+      border-radius: 0;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none; border-color: var(--stone);
+    }
+    textarea { min-height: 120px; resize: vertical; }
+    .form-submit {
+      width: 100%; padding: 16px;
+      background: var(--green); color: var(--white);
+      border: none; cursor: pointer;
+      font-family: var(--sans); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      transition: background .25s;
+    }
+    .form-submit:hover { background: var(--green-mid); }
+    .form-note { font-size: 12px; color: var(--stone); margin-top: 12px; text-align: center; }
+
+    /* ─── Footer ─── */
+    footer {
+      background: var(--ink);
+      padding: 60px 0 32px;
+    }
+    .footer-inner {
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand svg { height: 40px; width: auto; margin-bottom: 20px; }
+    .footer-brand p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,.45); max-width: 280px; }
+    .footer-col h5 {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--stone); margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: 14px; color: rgba(255,255,255,.45); transition: color .2s; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-bottom p { font-size: 12px; color: rgba(255,255,255,.3); }
+    .footer-bottom .footer-logo-icon svg { height: 32px; opacity: .25; }
+
+    /* ─── Toast ─── */
+    #toast {
+      position: fixed; bottom: 32px; right: 32px; z-index: 200;
+      background: var(--green); color: var(--white);
+      padding: 16px 24px; font-size: 14px;
+      transform: translateY(80px); opacity: 0;
+      transition: transform .4s, opacity .4s;
+      pointer-events: none;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ─── Animations ─── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 900px) {
+      .about-grid, .why-grid, .area-inner, .contact-grid, .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .mission-pillars { grid-template-columns: 1fr; }
+      .portfolio-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .portfolio-item:nth-child(1),
+      .portfolio-item:nth-child(4) { grid-column: span 2; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .hero-badges { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-links, .nav-cta { display: none; }
+      .nav-burger { display: flex; }
+      nav.open .nav-links {
+        display: flex; flex-direction: column;
+        position: fixed; top: 72px; left: 0; right: 0;
+        background: var(--white); padding: 32px;
+        border-bottom: 1px solid var(--stone-light);
+        gap: 20px;
+      }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .portfolio-item:nth-child(1),
+      .portfolio-item:nth-child(4) { grid-column: span 1; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .city-list { grid-template-columns: 1fr; }
+      .contact-form { padding: 32px 24px; }
+      .about-visual { padding: 36px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── Navigation ─── -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 215" role="img" aria-label="Verdant Stone">
+        <line x1="60" y1="25" x2="107" y2="122" stroke="#1F3525" stroke-width="7" stroke-linecap="round"/>
+        <line x1="154" y1="25" x2="107" y2="122" stroke="#1F3525" stroke-width="7" stroke-linecap="round"/>
+        <line x1="44" y1="143" x2="170" y2="143" stroke="#9C8570" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="60" y1="158" x2="154" y2="158" stroke="#9C8570" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="76" y1="171" x2="138" y2="171" stroke="#9C8570" stroke-width="2" stroke-linecap="round"/>
+        <line x1="200" y1="22" x2="200" y2="188" stroke="#C8BAA8" stroke-width="1"/>
+        <text x="224" y="108" font-family="Georgia,'Palatino Linotype',serif" font-size="52" font-weight="400" fill="#1A1A1A" letter-spacing="7">VERDANT</text>
+        <text x="224" y="166" font-family="Georgia,'Palatino Linotype',serif" font-size="52" font-weight="400" fill="#9C8570" letter-spacing="20">STONE</text>
+        <text x="226" y="187" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="400" fill="#9C8570" letter-spacing="4.5" opacity="0.85">LANDSCAPE CONSTRUCTION</text>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">Nosotros</a></li>
+      <li><a href="#services">Servicios</a></li>
+      <li><a href="#portfolio">Portafolio</a></li>
+      <li><a href="#area">Área</a></li>
+      <li><a href="#contact">Contacto</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Solicitar cotización</a>
+    <div class="nav-burger" id="burger" aria-label="Menú" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── Hero ─── -->
+<section id="hero">
+  <div class="hero-texture"></div>
+  <div class="hero-content">
+    <p class="hero-label">Verdant Stone — Central Valley, California</p>
+    <h1 class="hero-h1">
+      Espacios exteriores<br>que <em>transforman</em><br>tu propiedad.
+    </h1>
+    <p class="hero-sub">
+      Construcción premium de paisajismo y hardscape. Diseñamos y construimos exteriores refinados que elevan el valor y la función de tu hogar.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Solicitar cotización</a>
+      <a href="#portfolio" class="btn-ghost">Ver proyectos</a>
+    </div>
+  </div>
+  <div class="hero-badges">
+    <span class="badge">Stockton · Tracy · Lathrop · Modesto</span>
+    <span class="badge">Diseño · Construcción · Transformación</span>
+  </div>
+  <div class="hero-strata">
+    <span></span><span></span><span></span>
+  </div>
+</section>
+
+<!-- ─── Quiénes Somos ─── -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <p class="label">Quiénes somos</p>
+        <div class="divider"></div>
+        <h2>Artesanos del espacio exterior</h2>
+        <p>
+          Verdant Stone es una empresa de construcción de paisajismo premium con sede en el Valle Central de California. Nos especializamos en transformar espacios exteriores en ambientes terminados, modernos y de alto valor.
+        </p>
+        <p>
+          No somos una empresa de mantenimiento. Somos constructores. Cada proyecto que tomamos es tratado con la misma precisión y estándar de calidad que merece una obra arquitectónica.
+        </p>
+        <p>
+          Nuestro enfoque: diseño limpio, materiales duraderos y resultados que hablan por sí solos.
+        </p>
+      </div>
+      <div class="about-visual fade-in">
+        <div class="about-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="80" height="80">
+            <line x1="20" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="140" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="10" y1="120" x2="150" y2="120" stroke="#9C8570" stroke-width="5" stroke-linecap="round"/>
+            <line x1="28" y1="136" x2="132" y2="136" stroke="#9C8570" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="46" y1="150" x2="114" y2="150" stroke="#9C8570" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="about-quote">
+          "Vendemos transformación, artesanía y valor a largo plazo."
+        </p>
+        <p class="about-quote-attr">— Verdant Stone</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Misión ─── -->
+<section id="mission">
+  <div class="container">
+    <div class="mission-inner fade-in">
+      <p class="label">Nuestra misión</p>
+      <div class="divider center"></div>
+      <h2>Construimos exteriores que<br><em>agregan valor real</em></h2>
+      <p>
+        Nuestra misión es entregar proyectos de paisajismo y hardscape que mejoren la función, la apariencia y el valor de cada propiedad que tocamos — con los más altos estándares de calidad y precisión.
+      </p>
+      <p>
+        Creemos que el exterior de un hogar merece el mismo nivel de diseño y cuidado que el interior. Cada patio, cada camino, cada jardín es una oportunidad de crear algo que dure décadas.
+      </p>
+    </div>
+    <div class="mission-pillars fade-in">
+      <div class="pillar">
+        <div class="pillar-icon">◇</div>
+        <h3>Calidad premium</h3>
+        <p>Materiales de primera y mano de obra con estándares de precisión que definen nuestra reputación.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">◈</div>
+        <h3>Diseño intencional</h3>
+        <p>Cada proyecto comienza con una visión clara. Diseñamos antes de construir, siempre.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">◉</div>
+        <h3>Valor duradero</h3>
+        <p>Nuestro trabajo eleva el valor de la propiedad y mejora la vida cotidiana de quienes lo habitan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Servicios ─── -->
+<section id="services">
+  <div class="container">
+    <div class="services-header fade-in">
+      <p class="label">Lo que hacemos</p>
+      <div class="divider center"></div>
+      <h2>Servicios de construcción exterior</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-num">01</div>
+        <h3>Patios y pisos de pavimento</h3>
+        <p>Diseño e instalación de patios con paving stones, adoquines y materiales premium que combinan durabilidad con estética.</p>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">02</div>
+        <h3>Construcción de hardscape</h3>
+        <p>Muros de retención, bordes, pasillos y estructuras duras que definen y organizan el espacio exterior con precisión.</p>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">03</div>
+        <h3>Soluciones de drenaje</h3>
+        <p>Sistemas de drenaje integrados que protegen tu propiedad y garantizan la longevidad de cada instalación.</p>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">04</div>
+        <h3>Diseño y layout exterior</h3>
+        <p>Planificación completa del espacio antes de cualquier construcción. Visualizamos el resultado final desde el primer día.</p>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">05</div>
+        <h3>Instalación de paisajismo</h3>
+        <p>Incorporación estratégica de plantas, grava, rocas y elementos naturales que complementan la construcción.</p>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">06</div>
+        <h3>Transformaciones front &amp; backyard</h3>
+        <p>Renovación integral de jardines frontales y traseros para aumentar el curb appeal y el valor de tu propiedad.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Portfolio ─── -->
+<section id="portfolio">
+  <div class="container">
+    <div class="portfolio-header fade-in">
+      <p class="label">Nuestro trabajo</p>
+      <div class="divider center"></div>
+      <h2>Portafolio de proyectos</h2>
+      <p>Cada proyecto es una transformación. Estos son algunos de los espacios que hemos construido en el Valle Central.</p>
+    </div>
+    <div class="portfolio-grid">
+      <!-- Proyecto 1 – Featured -->
+      <div class="portfolio-item fade-in">
+        <div class="portfolio-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="48" height="48">
+            <line x1="20" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="140" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="10" y1="120" x2="150" y2="120" stroke="#9C8570" stroke-width="5" stroke-linecap="round"/>
+            <line x1="28" y1="136" x2="132" y2="136" stroke="#9C8570" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="46" y1="150" x2="114" y2="150" stroke="#9C8570" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <span>Proyecto destacado</span>
+        </div>
+        <div class="portfolio-overlay">
+          <h4>Patio de piedra — Stockton</h4>
+          <p>Hardscape · Pavers</p>
+        </div>
+      </div>
+      <!-- Proyecto 2 -->
+      <div class="portfolio-item fade-in">
+        <div class="portfolio-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="36" height="36">
+            <line x1="20" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="140" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="10" y1="120" x2="150" y2="120" stroke="#9C8570" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+          <span>Próximamente</span>
+        </div>
+        <div class="portfolio-overlay">
+          <h4>Jardín frontal — Tracy</h4>
+          <p>Curb Appeal · Diseño</p>
+        </div>
+      </div>
+      <!-- Proyecto 3 -->
+      <div class="portfolio-item fade-in">
+        <div class="portfolio-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="36" height="36">
+            <line x1="20" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="140" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="10" y1="120" x2="150" y2="120" stroke="#9C8570" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+          <span>Próximamente</span>
+        </div>
+        <div class="portfolio-overlay">
+          <h4>Drenaje — Lathrop</h4>
+          <p>Drenaje · Retención</p>
+        </div>
+      </div>
+      <!-- Proyecto 4 – Featured -->
+      <div class="portfolio-item fade-in">
+        <div class="portfolio-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="48" height="48">
+            <line x1="20" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="140" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="10" y1="120" x2="150" y2="120" stroke="#9C8570" stroke-width="5" stroke-linecap="round"/>
+            <line x1="28" y1="136" x2="132" y2="136" stroke="#9C8570" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="46" y1="150" x2="114" y2="150" stroke="#9C8570" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <span>Transformación completa</span>
+        </div>
+        <div class="portfolio-overlay">
+          <h4>Backyard — Modesto</h4>
+          <p>Transformación · Paisajismo</p>
+        </div>
+      </div>
+      <!-- Proyecto 5 -->
+      <div class="portfolio-item fade-in">
+        <div class="portfolio-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="36" height="36">
+            <line x1="20" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="140" y1="20" x2="80" y2="100" stroke="#1F3525" stroke-width="10" stroke-linecap="round"/>
+            <line x1="10" y1="120" x2="150" y2="120" stroke="#9C8570" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+          <span>Próximamente</span>
+        </div>
+        <div class="portfolio-overlay">
+          <h4>Muros de retención — Tracy</h4>
+          <p>Hardscape · Construcción</p>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-cta fade-in">
+      <span class="portfolio-note">Las fotos de proyectos completados se agregarán aquí — Contáctanos para ver nuestro trabajo en persona</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Por qué elegirnos ─── -->
+<section id="why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-left fade-in">
+        <p class="label">Por qué Verdant Stone</p>
+        <div class="divider"></div>
+        <h2>No somos para todos. Somos para los que quieren lo mejor.</h2>
+        <p>
+          Trabajamos con clientes residenciales y comerciales pequeños que valoran la calidad, el diseño y el resultado final. Nos enfocamos en proyectos donde el detalle importa y el resultado habla por sí solo.
+        </p>
+      </div>
+      <ul class="why-list fade-in">
+        <li>
+          <div class="why-check">
+            <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="2,7 6,11 12,3"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Precio por calidad y precisión</h4>
+            <p>No sacrificamos el margen ni la calidad. Cotizamos para entregar resultados excepcionales, siempre.</p>
+          </div>
+        </li>
+        <li>
+          <div class="why-check">
+            <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="2,7 6,11 12,3"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Proceso claro y transparente</h4>
+            <p>Cada proyecto tiene alcance definido, materiales especificados, cronograma y política de cambios por escrito.</p>
+          </div>
+        </li>
+        <li>
+          <div class="why-check">
+            <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="2,7 6,11 12,3"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Enfocados en transformación</h4>
+            <p>Solo hacemos proyectos de diseño y construcción. No hacemos mantenimiento — eso nos permite ser los mejores en lo que hacemos.</p>
+          </div>
+        </li>
+        <li>
+          <div class="why-check">
+            <svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="2,7 6,11 12,3"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Valor a largo plazo</h4>
+            <p>Cada proyecto está diseñado para durar y para aumentar el valor de tu propiedad, no solo para verse bien el primer día.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Área de servicio ─── -->
+<section id="area">
+  <div class="container">
+    <div class="area-inner">
+      <div class="area-text fade-in">
+        <p class="label">Área de servicio</p>
+        <div class="divider" style="background:var(--stone-light)"></div>
+        <h2>Sirviendo al Valle Central de California</h2>
+        <p>
+          Operamos en las principales ciudades del Valle Central. Si tu propiedad está en el área, estamos listos para visitarla y darte una consulta sin compromiso.
+        </p>
+        <ul class="city-list">
+          <li>Stockton</li>
+          <li>Tracy</li>
+          <li>Lathrop</li>
+          <li>Modesto</li>
+        </ul>
+      </div>
+      <div class="area-map fade-in">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="64" height="64" opacity=".3">
+          <line x1="20" y1="20" x2="80" y2="100" stroke="#C8BAA8" stroke-width="10" stroke-linecap="round"/>
+          <line x1="140" y1="20" x2="80" y2="100" stroke="#C8BAA8" stroke-width="10" stroke-linecap="round"/>
+          <line x1="10" y1="120" x2="150" y2="120" stroke="#9C8570" stroke-width="5" stroke-linecap="round"/>
+          <line x1="28" y1="136" x2="132" y2="136" stroke="#9C8570" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="46" y1="150" x2="114" y2="150" stroke="#9C8570" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <p>Central Valley, CA</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Contacto ─── -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info fade-in">
+        <p class="label">Hablemos</p>
+        <div class="divider"></div>
+        <h2>¿Listo para transformar tu espacio exterior?</h2>
+        <p>
+          Contáctanos para una consulta y visita al sitio. Revisamos tu proyecto, te explicamos el proceso y te entregamos una propuesta detallada sin compromiso.
+        </p>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="contact-detail-text">
+            <strong>Área de servicio</strong>
+            <span>Stockton, Tracy, Lathrop, Modesto — Central Valley, CA</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.37 10.8 19.79 19.79 0 01.29 2.18 2 2 0 012.26 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006 6l1.27-.68a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div class="contact-detail-text">
+            <strong>Teléfono</strong>
+            <span>Disponible al solicitar cotización</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="contact-detail-text">
+            <strong>Respuesta</strong>
+            <span>Respondemos en menos de 24 horas hábiles</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form fade-in">
+        <h3>Solicitar cotización</h3>
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Nombre completo</label>
+              <input type="text" id="name" name="name" placeholder="Tu nombre" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Teléfono</label>
+              <input type="tel" id="phone" name="phone" placeholder="(209) 000-0000" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="city">Ciudad</label>
+            <select id="city" name="city">
+              <option value="">Selecciona tu ciudad</option>
+              <option>Stockton</option>
+              <option>Tracy</option>
+              <option>Lathrop</option>
+              <option>Modesto</option>
+              <option>Otra</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="service">Tipo de proyecto</label>
+            <select id="service" name="service">
+              <option value="">¿Qué necesitas?</option>
+              <option>Patio y pavers</option>
+              <option>Hardscape y muros</option>
+              <option>Drenaje</option>
+              <option>Diseño y layout exterior</option>
+              <option>Transformación front yard</option>
+              <option>Transformación backyard</option>
+              <option>Proyecto completo</option>
+              <option>No estoy seguro aún</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Cuéntanos sobre tu proyecto</label>
+            <textarea id="message" name="message" placeholder="Descripción breve del espacio, tus objetivos, o cualquier detalle relevante..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Enviar solicitud</button>
+          <p class="form-note">Sin compromiso · Respuesta en &lt; 24h · Visita al sitio gratuita</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Footer ─── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 215" role="img" aria-label="Verdant Stone">
+          <line x1="60" y1="25" x2="107" y2="122" stroke="#C8BAA8" stroke-width="7" stroke-linecap="round"/>
+          <line x1="154" y1="25" x2="107" y2="122" stroke="#C8BAA8" stroke-width="7" stroke-linecap="round"/>
+          <line x1="44" y1="143" x2="170" y2="143" stroke="#9C8570" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="60" y1="158" x2="154" y2="158" stroke="#9C8570" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="76" y1="171" x2="138" y2="171" stroke="#9C8570" stroke-width="2" stroke-linecap="round"/>
+          <line x1="200" y1="22" x2="200" y2="188" stroke="#444" stroke-width="1"/>
+          <text x="224" y="108" font-family="Georgia,'Palatino Linotype',serif" font-size="52" font-weight="400" fill="rgba(255,255,255,.7)" letter-spacing="7">VERDANT</text>
+          <text x="224" y="166" font-family="Georgia,'Palatino Linotype',serif" font-size="52" font-weight="400" fill="#9C8570" letter-spacing="20">STONE</text>
+          <text x="226" y="187" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="400" fill="#9C8570" letter-spacing="4.5" opacity="0.6">LANDSCAPE CONSTRUCTION</text>
+        </svg>
+        <p>Construcción premium de paisajismo y hardscape en el Valle Central de California. Diseñamos y construimos exteriores que duran.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navegación</h5>
+        <ul>
+          <li><a href="#about">Quiénes somos</a></li>
+          <li><a href="#mission">Misión</a></li>
+          <li><a href="#services">Servicios</a></li>
+          <li><a href="#portfolio">Portafolio</a></li>
+          <li><a href="#contact">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Servicios</h5>
+        <ul>
+          <li><a href="#services">Patios y pavers</a></li>
+          <li><a href="#services">Hardscape</a></li>
+          <li><a href="#services">Drenaje</a></li>
+          <li><a href="#services">Diseño exterior</a></li>
+          <li><a href="#services">Paisajismo</a></li>
+          <li><a href="#services">Transformaciones</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Verdant Stone · Central Valley, California · Todos los derechos reservados</p>
+      <div class="footer-logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+          <line x1="20" y1="20" x2="80" y2="100" stroke="#C8BAA8" stroke-width="10" stroke-linecap="round"/>
+          <line x1="140" y1="20" x2="80" y2="100" stroke="#C8BAA8" stroke-width="10" stroke-linecap="round"/>
+          <line x1="10" y1="120" x2="150" y2="120" stroke="#9C8570" stroke-width="5" stroke-linecap="round"/>
+          <line x1="28" y1="136" x2="132" y2="136" stroke="#9C8570" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="46" y1="150" x2="114" y2="150" stroke="#9C8570" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast notification -->
+<div id="toast">Mensaje enviado — te contactamos en menos de 24h</div>
+
+<script>
+  // Nav scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile burger
+  const burger = document.getElementById('burger');
+  burger.addEventListener('click', () => navbar.classList.toggle('open'));
+  burger.addEventListener('keydown', e => { if(e.key === 'Enter') navbar.classList.toggle('open'); });
+
+  // Close nav on link click
+  document.querySelectorAll('.nav-links a').forEach(a =>
+    a.addEventListener('click', () => navbar.classList.remove('open'))
+  );
+
+  // Intersection Observer — fade-in animations
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Form submit
+  const form = document.getElementById('contactForm');
+  const toast = document.getElementById('toast');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    if (!name || !email) {
+      alert('Por favor completa tu nombre y correo electrónico.');
+      return;
+    }
+    // Show toast
+    toast.classList.add('show');
+    form.reset();
+    setTimeout(() => toast.classList.remove('show'), 4500);
+  });
+
+  // Active nav link highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navAs = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navAs.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--stone)' : '';
+    });
+  });
+</script>
+</body>
+</html>
