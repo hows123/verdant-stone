@@ -1,0 +1,11 @@
+# Documentos privados de negocio
+*.docx
+*.xlsx
+*.~lock*
+.DS_Store
+CLAUDE.md
+*-sheet.txt
+workflow-sheet.txt
+pricing-sheet.txt
+proposal-template-sheet.txt
+servises-sheet.txt

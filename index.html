@@ -880,7 +880,9 @@
 
       <div class="contact-form fade-in">
         <h3>Solicitar cotización</h3>
-        <form id="contactForm" novalidate>
+        <form id="contactForm" name="cotizacion" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="cotizacion" />
+          <p style="display:none"><input name="bot-field" /></p>
           <div class="form-row">
             <div class="form-group">
               <label for="name">Nombre completo</label>
