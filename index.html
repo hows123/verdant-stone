@@ -87,6 +87,61 @@
     .nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
     .nav-burger span { width: 24px; height: 1.5px; background: var(--ink); transition: .3s; }
 
+    /* ─── Stone texture animation ─── */
+    @keyframes stoneShift {
+      0%   { background-position: 0% 0%, 100% 100%, 50% 50%; }
+      33%  { background-position: 20% 15%, 80% 85%, 30% 70%; }
+      66%  { background-position: 10% 40%, 90% 60%, 70% 30%; }
+      100% { background-position: 0% 0%, 100% 100%, 50% 50%; }
+    }
+    @keyframes grainFloat {
+      0%, 100% { transform: translate(0, 0); }
+      20%       { transform: translate(-1px, 1px); }
+      40%       { transform: translate(1px, -1px); }
+      60%       { transform: translate(-1px, -1px); }
+      80%       { transform: translate(1px, 1px); }
+    }
+    @keyframes stoneGlow {
+      0%, 100% { opacity: .55; }
+      50%       { opacity: .75; }
+    }
+    .stone-bg {
+      position: absolute; inset: -4px;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 30%, rgba(156,133,112,.18) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 80% at 80% 70%, rgba(200,186,168,.12) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 40% at 50% 90%, rgba(31,53,37,.6) 0%, transparent 60%);
+      background-size: 200% 200%, 180% 180%, 160% 160%;
+      animation: stoneShift 18s ease-in-out infinite;
+    }
+    .stone-grain {
+      position: absolute; inset: -20px;
+      opacity: .04;
+      animation: grainFloat 0.15s steps(1) infinite, stoneGlow 8s ease-in-out infinite;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 300px 300px;
+    }
+    .stone-lines {
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          162deg,
+          transparent 0px,
+          transparent 38px,
+          rgba(156,133,112,.04) 38px,
+          rgba(156,133,112,.04) 39px
+        ),
+        repeating-linear-gradient(
+          148deg,
+          transparent 0px,
+          transparent 62px,
+          rgba(200,186,168,.03) 62px,
+          rgba(200,186,168,.03) 63px
+        );
+      animation: stoneShift 30s ease-in-out infinite reverse;
+      background-size: 200% 200%;
+    }
+
     /* ─── Hero ─── */
     #hero {
       min-height: 100vh;
@@ -196,7 +251,7 @@
     }
 
     /* ─── Misión ─── */
-    #mission { background: var(--green); }
+    #mission { background: var(--green); position: relative; overflow: hidden; }
     .mission-inner { text-align: center; max-width: 780px; margin: 0 auto; }
     .mission-inner .label { color: var(--stone-light); margin-bottom: 20px; }
     .mission-inner h2 {
@@ -512,6 +567,9 @@
 
 <!-- ─── Hero ─── -->
 <section id="hero">
+  <div class="stone-bg"></div>
+  <div class="stone-grain"></div>
+  <div class="stone-lines"></div>
   <div class="hero-texture"></div>
   <div class="hero-content">
     <p class="hero-label">Verdant Stone — Central Valley, California</p>
@@ -574,6 +632,9 @@
 
 <!-- ─── Misión ─── -->
 <section id="mission">
+  <div class="stone-bg"></div>
+  <div class="stone-grain"></div>
+  <div class="stone-lines"></div>
   <div class="container">
     <div class="mission-inner fade-in">
       <p class="label">Nuestra misión</p>
