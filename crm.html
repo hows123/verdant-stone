@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verdant Stone — CRM</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green:#1F3525;--green-mid:#2D4A35;--stone:#9C8570;--stone-light:#C8BAA8;--stone-pale:#F4F0EC;--ink:#1A1A1A;--white:#FFFFFF;--red:#C0392B;--red-pale:#FDECEA;--blue:#2563EB;--blue-pale:#EFF6FF;
+      --serif:Georgia,'Palatino Linotype',serif;--sans:'Helvetica Neue',Arial,Helvetica,sans-serif;
+    }
+    body{font-family:var(--sans);background:#F0EDE8;color:var(--ink);min-height:100vh;}
+    .topbar{background:var(--green);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .topbar-logo{display:flex;align-items:center;gap:12px;}
+    .topbar-logo svg{height:32px;}
+    .topbar-title{font-family:var(--serif);font-size:14px;color:rgba(255,255,255,.6);letter-spacing:3px;text-transform:uppercase;}
+    .topbar-actions{display:flex;gap:10px;align-items:center;}
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;font-family:var(--sans);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;white-space:nowrap;}
+    .btn-primary{background:var(--stone);color:var(--white);}
+    .btn-primary:hover{background:#b09580;}
+    .btn-ghost{background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.25);}
+    .btn-ghost:hover{background:rgba(255,255,255,.08);color:var(--white);}
+    .btn-danger{background:var(--red);color:var(--white);}
+    .btn-green{background:var(--green);color:var(--white);}
+    .btn-green:hover{background:var(--green-mid);}
+    .btn-sync{background:#2563EB;color:var(--white);}
+    .btn-sync:hover{background:#1d4ed8;}
+    .sync-dot{width:8px;height:8px;border-radius:50%;background:#F59E0B;display:inline-block;}
+    .sync-dot.ok{background:#16A34A;}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--stone-light);border-bottom:1px solid var(--stone-light);}
+    .stat{background:var(--white);padding:20px 28px;}
+    .stat-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--stone);margin-bottom:6px;}
+    .stat-value{font-family:var(--serif);font-size:32px;color:var(--green);line-height:1;}
+    .stat-sub{font-size:12px;color:#999;margin-top:4px;}
+    .toolbar{padding:16px 32px;display:flex;align-items:center;gap:12px;background:var(--white);border-bottom:1px solid var(--stone-light);}
+    .search-wrap{position:relative;flex:1;max-width:320px;}
+    .search-wrap input{width:100%;padding:9px 12px 9px 36px;border:1px solid var(--stone-light);font-family:var(--sans);font-size:14px;background:var(--stone-pale);border-radius:0;}
+    .search-wrap input:focus{outline:none;border-color:var(--stone);}
+    .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.4;}
+    .filter-select{padding:9px 12px;border:1px solid var(--stone-light);font-family:var(--sans);font-size:13px;background:var(--stone-pale);border-radius:0;-webkit-appearance:none;cursor:pointer;}
+    .filter-select:focus{outline:none;border-color:var(--stone);}
+    .board{display:flex;padding:24px;overflow-x:auto;min-height:calc(100vh - 220px);gap:12px;}
+    .column{min-width:260px;flex:1;background:var(--white);border-top:3px solid var(--stone-light);display:flex;flex-direction:column;}
+    .column.col-lead{border-top-color:#64748B;}
+    .column.col-contact{border-top-color:#F59E0B;}
+    .column.col-proposal{border-top-color:var(--blue);}
+    .column.col-active{border-top-color:var(--stone);}
+    .column.col-closed{border-top-color:#16A34A;}
+    .column.col-lost{border-top-color:var(--red);}
+    .col-header{padding:14px 16px;border-bottom:1px solid var(--stone-pale);display:flex;align-items:center;justify-content:space-between;}
+    .col-title{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;}
+    .col-count{font-size:11px;background:var(--stone-pale);color:var(--stone);padding:2px 8px;border-radius:20px;}
+    .col-body{padding:12px;flex:1;overflow-y:auto;min-height:80px;}
+    .col-body.drag-over{background:var(--stone-pale);}
+    .card{background:var(--white);border:1px solid var(--stone-light);border-left:3px solid var(--stone);padding:14px;margin-bottom:8px;cursor:pointer;transition:box-shadow .2s,transform .15s;}
+    .card:hover{box-shadow:0 4px 12px rgba(0,0,0,.1);transform:translateY(-1px);}
+    .card.dragging{opacity:.5;}
+    .card.is-new{border-left-color:#2563EB;}
+    .card-name{font-size:14px;font-weight:600;margin-bottom:4px;color:var(--green);}
+    .card-service{font-size:12px;color:var(--stone);margin-bottom:8px;}
+    .card-footer{display:flex;justify-content:space-between;align-items:center;}
+    .card-city{font-size:11px;color:#999;}
+    .card-value{font-size:13px;font-weight:600;color:var(--green);}
+    .card-date{font-size:10px;color:#bbb;margin-top:6px;}
+    .new-badge{background:#2563EB;color:white;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;border-radius:2px;margin-left:6px;vertical-align:middle;}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+    .overlay.open{display:flex;}
+    .modal{background:var(--white);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;border-top:4px solid var(--green);}
+    .modal-lg{max-width:780px;}
+    .modal-header{padding:24px 28px 16px;border-bottom:1px solid var(--stone-pale);display:flex;justify-content:space-between;align-items:flex-start;}
+    .modal-header h2{font-family:var(--serif);font-size:22px;color:var(--green);}
+    .modal-header p{font-size:13px;color:var(--stone);margin-top:4px;}
+    .modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:#999;line-height:1;padding:0;}
+    .modal-close:hover{color:var(--ink);}
+    .modal-body{padding:24px 28px;}
+    .modal-footer{padding:16px 28px;border-top:1px solid var(--stone-pale);display:flex;justify-content:flex-end;gap:10px;}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .form-full{grid-column:span 2;}
+    label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--stone);margin-bottom:6px;}
+    input,textarea,select{width:100%;padding:10px 12px;border:1px solid var(--stone-light);font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--white);transition:border-color .2s;border-radius:0;-webkit-appearance:none;appearance:none;}
+    input:focus,textarea:focus,select:focus{outline:none;border-color:var(--stone);}
+    textarea{min-height:90px;resize:vertical;}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+    .detail-left{padding:0 24px 0 0;border-right:1px solid var(--stone-pale);}
+    .detail-right{padding:0 0 0 24px;}
+    .detail-field{margin-bottom:20px;}
+    .detail-field label{margin-bottom:4px;}
+    .detail-field .val{font-size:15px;color:var(--ink);}
+    .detail-field .val.big{font-family:var(--serif);font-size:24px;color:var(--green);}
+    .stage-selector{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+    .stage-btn{padding:6px 14px;border:1px solid var(--stone-light);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;background:var(--white);transition:.2s;}
+    .stage-btn:hover{background:var(--stone-pale);}
+    .stage-btn.active{background:var(--green);color:var(--white);border-color:var(--green);}
+    .notes-list{list-style:none;}
+    .note-item{padding:10px 12px;background:var(--stone-pale);border-left:2px solid var(--stone-light);margin-bottom:8px;font-size:13px;line-height:1.5;}
+    .note-meta{font-size:10px;color:#999;margin-top:4px;}
+    .note-input-row{display:flex;gap:8px;margin-top:8px;}
+    .note-input-row input{flex:1;}
+    .settings-section{margin-bottom:28px;}
+    .settings-section h3{font-family:var(--serif);font-size:16px;color:var(--green);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--stone-pale);}
+    .settings-info{background:var(--blue-pale);border-left:3px solid var(--blue);padding:12px 16px;margin-bottom:20px;font-size:13px;line-height:1.6;color:#1e40af;}
+    .token-input-wrap{position:relative;}
+    .token-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--stone);font-size:13px;}
+    .sync-result{padding:12px 16px;margin-top:16px;font-size:13px;line-height:1.6;display:none;}
+    .sync-result.success{background:#F0FDF4;border-left:3px solid #16A34A;color:#15803d;display:block;}
+    .sync-result.error{background:var(--red-pale);border-left:3px solid var(--red);color:var(--red);display:block;}
+    .sync-result.info{background:var(--stone-pale);border-left:3px solid var(--stone);color:#555;display:block;}
+    .proposal-preview{background:var(--white);border:1px solid var(--stone-light);padding:48px;}
+    .prop-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;padding-bottom:24px;border-bottom:2px solid var(--stone-light);}
+    .prop-to h3{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--stone);margin-bottom:8px;}
+    .prop-to p{font-size:15px;line-height:1.6;}
+    .prop-meta{text-align:right;font-size:13px;color:#777;line-height:1.8;}
+    .prop-section{margin-bottom:28px;}
+    .prop-section h4{font-family:var(--serif);font-size:16px;color:var(--green);border-bottom:1px solid var(--stone-pale);padding-bottom:8px;margin-bottom:14px;}
+    .prop-section p{font-size:14px;line-height:1.7;color:#555;}
+    .prop-table{width:100%;border-collapse:collapse;margin-top:8px;}
+    .prop-table th{background:var(--green);color:var(--white);padding:10px 14px;text-align:left;font-size:11px;letter-spacing:2px;text-transform:uppercase;}
+    .prop-table td{padding:10px 14px;border-bottom:1px solid var(--stone-pale);font-size:14px;}
+    .prop-total{background:var(--stone-pale);font-weight:700;}
+    .prop-footer{margin-top:40px;padding-top:24px;border-top:1px solid var(--stone-light);display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+    .prop-sign h5{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--stone);margin-bottom:32px;}
+    .prop-sign-line{border-bottom:1px solid var(--ink);padding-bottom:4px;font-size:12px;color:#999;}
+    .prop-tagline{text-align:center;margin-top:32px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--stone);}
+    .empty{padding:32px 16px;text-align:center;color:#bbb;}
+    .empty p{font-size:13px;}
+    #toast{position:fixed;bottom:24px;right:24px;z-index:300;background:var(--green);color:var(--white);padding:14px 22px;font-size:13px;transform:translateY(60px);opacity:0;transition:.35s;pointer-events:none;}
+    #toast.show{transform:translateY(0);opacity:1;}
+    @media print{body>*:not(#proposalOverlay){display:none;}#proposalOverlay{position:static;background:none;padding:0;}.modal-lg{max-width:100%;}.modal-header,.modal-footer{display:none;}.modal-body{padding:0;}}
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+      <line x1="20" y1="20" x2="80" y2="100" stroke="#C8BAA8" stroke-width="10" stroke-linecap="round"/>
+      <line x1="140" y1="20" x2="80" y2="100" stroke="#C8BAA8" stroke-width="10" stroke-linecap="round"/>
+      <line x1="10" y1="120" x2="150" y2="120" stroke="#9C8570" stroke-width="5" stroke-linecap="round"/>
+      <line x1="28" y1="136" x2="132" y2="136" stroke="#9C8570" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="46" y1="150" x2="114" y2="150" stroke="#9C8570" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span class="topbar-title">CRM</span>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn btn-sync" onclick="openSettings()"><span class="sync-dot" id="syncDot"></span> Sincronizar Netlify</button>
+    <button class="btn btn-ghost" onclick="exportCSV()">↓ CSV</button>
+    <button class="btn btn-primary" onclick="openAdd()">+ Nuevo lead</button>
+  </div>
+</div>
+
+<div class="stats" id="statsBar"></div>
+
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9C8570" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Buscar cliente..." oninput="render()" />
+  </div>
+  <select class="filter-select" id="filterStage" onchange="render()">
+    <option value="">Todas las etapas</option>
+    <option value="lead">Nuevo Lead</option><option value="contact">Contactado</option>
+    <option value="proposal">Propuesta Enviada</option><option value="active">En Proceso</option>
+    <option value="closed">Cerrado</option><option value="lost">Perdido</option>
+  </select>
+  <select class="filter-select" id="filterCity" onchange="render()">
+    <option value="">Todas las ciudades</option>
+    <option>Stockton</option><option>Tracy</option><option>Lathrop</option><option>Modesto</option><option>Otra</option>
+  </select>
+  <span id="lastSyncLabel" style="font-size:12px;color:#999;margin-left:4px"></span>
+</div>
+
+<div class="board" id="board"></div>
+<div id="toast"></div>
+
+<!-- SETTINGS / SYNC MODAL -->
+<div class="overlay" id="settingsOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div><h2>Conectar con Netlify</h2><p>Importa leads automáticamente desde tu sitio web</p></div>
+      <button class="modal-close" onclick="closeModal('settingsOverlay')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="settings-section">
+        <h3>Paso 1 — Token de acceso</h3>
+        <div class="settings-info">
+          1. Ve a <strong>app.netlify.com</strong><br>
+          2. Click en tu foto → <strong>User settings</strong><br>
+          3. Sección <strong>Applications</strong> → <strong>Personal access tokens</strong><br>
+          4. <strong>New access token</strong> → escribe "CRM Verdant Stone" → <strong>Generate token</strong><br>
+          5. Copia el token y pégalo aquí abajo
+        </div>
+        <div style="margin-bottom:16px">
+          <label>Personal Access Token</label>
+          <div class="token-input-wrap">
+            <input type="password" id="netlifyToken" placeholder="Pega tu token aquí..." />
+            <button class="token-toggle" onclick="toggleToken()">mostrar</button>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="saveToken()" style="width:100%;justify-content:center">Guardar token</button>
+      </div>
+      <div class="settings-section">
+        <h3>Paso 2 — Sincronizar leads</h3>
+        <p style="font-size:13px;color:#666;margin-bottom:16px">Detecta automáticamente el formulario <strong>"cotizacion"</strong> de verdantstonelc.com e importa los nuevos leads.</p>
+        <button class="btn btn-sync" onclick="syncNow()" id="syncBtn" style="width:100%;justify-content:center;padding:14px">↻ &nbsp;Sincronizar ahora</button>
+        <div class="sync-result" id="syncResult"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" style="color:var(--ink);border:1px solid var(--stone-light);background:var(--white)" onclick="closeModal('settingsOverlay')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="overlay" id="addOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div><h2 id="addTitle">Nuevo Lead</h2><p id="addSubtitle">Ingresa los datos del cliente</p></div>
+      <button class="modal-close" onclick="closeModal('addOverlay')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div><label>Nombre completo *</label><input id="f_name" type="text" placeholder="Nombre del cliente" /></div>
+        <div><label>Teléfono</label><input id="f_phone" type="tel" placeholder="(209) 000-0000" /></div>
+        <div><label>Correo electrónico</label><input id="f_email" type="email" placeholder="cliente@email.com" /></div>
+        <div><label>Ciudad</label>
+          <select id="f_city"><option value="">Seleccionar</option><option>Stockton</option><option>Tracy</option><option>Lathrop</option><option>Modesto</option><option>Otra</option></select>
+        </div>
+        <div><label>Tipo de proyecto</label>
+          <select id="f_service"><option value="">Seleccionar</option><option>Patio y pavers</option><option>Hardscape y muros</option><option>Drenaje</option><option>Diseño y layout exterior</option><option>Transformación front yard</option><option>Transformación backyard</option><option>Proyecto completo</option><option>No definido aún</option></select>
+        </div>
+        <div><label>Valor estimado ($)</label><input id="f_value" type="number" placeholder="5000" min="0" /></div>
+        <div><label>Dirección</label><input id="f_address" type="text" placeholder="Dirección o área general" /></div>
+        <div><label>Etapa</label>
+          <select id="f_stage"><option value="lead">Nuevo Lead</option><option value="contact">Contactado</option><option value="proposal">Propuesta Enviada</option><option value="active">En Proceso</option><option value="closed">Cerrado</option><option value="lost">Perdido</option></select>
+        </div>
+        <div class="form-full"><label>Notas iniciales</label><textarea id="f_notes" placeholder="Descripción del proyecto..."></textarea></div>
+        <div><label>Fuente del lead</label>
+          <select id="f_source"><option value="">Seleccionar</option><option>Sitio web</option><option>Referido</option><option>Instagram</option><option>Google</option><option>Llamada directa</option><option>Otro</option></select>
+        </div>
+        <div><label>Fecha de contacto</label><input id="f_date" type="date" /></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" style="color:var(--ink);border:1px solid var(--stone-light);background:var(--white)" onclick="closeModal('addOverlay')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveLead()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <div><h2 id="d_name">—</h2><p id="d_service" style="color:var(--stone);font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-top:4px"></p></div>
+      <button class="modal-close" onclick="closeModal('detailOverlay')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-grid">
+        <div class="detail-left">
+          <div class="detail-field"><label>Etapa</label><div class="stage-selector" id="d_stages"></div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px">
+            <div class="detail-field"><label>Teléfono</label><div class="val" id="d_phone">—</div></div>
+            <div class="detail-field"><label>Correo</label><div class="val" id="d_email" style="word-break:break-all">—</div></div>
+            <div class="detail-field"><label>Ciudad</label><div class="val" id="d_city">—</div></div>
+            <div class="detail-field"><label>Fuente</label><div class="val" id="d_source">—</div></div>
+            <div class="detail-field"><label>Dirección</label><div class="val" id="d_address">—</div></div>
+            <div class="detail-field"><label>Fecha contacto</label><div class="val" id="d_date">—</div></div>
+            <div class="detail-field" style="grid-column:span 2"><label>Valor estimado</label><div class="val big" id="d_value">—</div></div>
+          </div>
+        </div>
+        <div class="detail-right">
+          <div class="detail-field">
+            <label>Notas</label>
+            <ul class="notes-list" id="d_notesList"></ul>
+            <div class="note-input-row">
+              <input type="text" id="d_noteInput" placeholder="Agregar nota..." onkeydown="if(event.key==='Enter')addNote()" />
+              <button class="btn btn-green" onclick="addNote()" style="padding:9px 16px;font-size:11px">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" onclick="deleteLead()">Eliminar</button>
+      <button class="btn" style="color:var(--ink);border:1px solid var(--stone-light);background:var(--white)" onclick="openEdit()">Editar</button>
+      <button class="btn btn-primary" onclick="openProposal()">Generar propuesta</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROPOSAL MODAL -->
+<div class="overlay" id="proposalOverlay">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <div><h2>Propuesta de proyecto</h2><p>Personaliza y luego imprime o guarda como PDF</p></div>
+      <button class="modal-close" onclick="closeModal('proposalOverlay')">×</button>
+    </div>
+    <div class="modal-body" style="padding:20px 28px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;padding:16px;background:var(--stone-pale);border:1px solid var(--stone-light)">
+        <div><label>Descripción</label><textarea id="p_overview" rows="3"></textarea></div>
+        <div><label>Alcance</label><textarea id="p_scope" rows="3"></textarea></div>
+        <div><label>Materiales</label><textarea id="p_materials" rows="2"></textarea></div>
+        <div><label>Exclusiones</label><textarea id="p_exclusions" rows="2"></textarea></div>
+        <div><label>Inicio estimado</label><input type="date" id="p_start" /></div>
+        <div><label>Fin estimado</label><input type="date" id="p_end" /></div>
+        <div><label>Depósito ($)</label><input type="number" id="p_deposit" /></div>
+        <div><label>Balance ($)</label><input type="number" id="p_balance" /></div>
+      </div>
+      <button class="btn btn-green" onclick="renderProposal()" style="margin-bottom:16px;font-size:11px">↻ Actualizar vista previa</button>
+      <div id="proposalDoc"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" style="color:var(--ink);border:1px solid var(--stone-light);background:var(--white)" onclick="closeModal('proposalOverlay')">Cerrar</button>
+      <button class="btn btn-primary" onclick="window.print()">Imprimir / PDF</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STAGES=[{id:'lead',label:'Nuevo Lead',color:'#64748B'},{id:'contact',label:'Contactado',color:'#F59E0B'},{id:'proposal',label:'Propuesta Enviada',color:'#2563EB'},{id:'active',label:'En Proceso',color:'#9C8570'},{id:'closed',label:'Cerrado ✓',color:'#16A34A'},{id:'lost',label:'Perdido',color:'#C0392B'}];
+let leads=JSON.parse(localStorage.getItem('vs_leads')||'[]');
+let importedIds=JSON.parse(localStorage.getItem('vs_imported_ids')||'[]');
+let editingId=null,viewingId=null;
+function save(){localStorage.setItem('vs_leads',JSON.stringify(leads));}
+function saveImported(){localStorage.setItem('vs_imported_ids',JSON.stringify(importedIds));}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
+function fmt$(n){return n?'$'+Number(n).toLocaleString('en-US'):'—';}
+function fmtDate(d){if(!d)return'—';const[y,m,day]=d.split('-');return`${m}/${day}/${y}`;}
+
+// ── NETLIFY SYNC ──
+function openSettings(){
+  document.getElementById('netlifyToken').value=localStorage.getItem('vs_netlify_token')||'';
+  document.getElementById('syncResult').className='sync-result';
+  updateSyncDot();openModal('settingsOverlay');
+}
+function saveToken(){
+  const t=document.getElementById('netlifyToken').value.trim();
+  if(!t){alert('Ingresa el token.');return;}
+  localStorage.setItem('vs_netlify_token',t);updateSyncDot();toast('Token guardado');closeModal('settingsOverlay');
+}
+function toggleToken(){
+  const i=document.getElementById('netlifyToken'),b=i.nextElementSibling;
+  i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'mostrar':'ocultar';
+}
+function updateSyncDot(){
+  document.getElementById('syncDot').className='sync-dot'+(localStorage.getItem('vs_netlify_token')?' ok':'');
+}
+async function syncNow(){
+  const token=document.getElementById('netlifyToken').value.trim()||localStorage.getItem('vs_netlify_token');
+  const result=document.getElementById('syncResult'),btn=document.getElementById('syncBtn');
+  if(!token){result.className='sync-result error';result.textContent='Ingresa tu token primero.';return;}
+  btn.textContent='⏳  Sincronizando...';btn.disabled=true;
+  result.className='sync-result info';result.textContent='Buscando formulario...';
+  try{
+    const fr=await fetch('https://api.netlify.com/api/v1/forms',{headers:{'Authorization':`Bearer ${token}`}});
+    if(!fr.ok)throw new Error('Token inválido (error '+fr.status+')');
+    const forms=await fr.json();
+    const form=forms.find(f=>f.name==='cotizacion');
+    if(!form){result.className='sync-result error';result.textContent='No se encontró el formulario "cotizacion". ¿Ya se recibió alguna cotización?';btn.textContent='↻  Sincronizar ahora';btn.disabled=false;return;}
+    result.textContent='Formulario encontrado. Descargando envíos...';
+    const sr=await fetch(`https://api.netlify.com/api/v1/forms/${form.id}/submissions?per_page=100`,{headers:{'Authorization':`Bearer ${token}`}});
+    if(!sr.ok)throw new Error('Error al obtener envíos: '+sr.status);
+    const subs=await sr.json();
+    let imported=0;
+    for(const sub of subs){
+      if(importedIds.includes(sub.id))continue;
+      const d=sub.data||{};
+      const keys=Object.keys(d).reduce((a,k)=>{a[k.toLowerCase()]=d[k];return a;},{});
+      leads.unshift({
+        id:uid(),
+        name:keys['nombre completo']||keys['name']||'Sin nombre',
+        phone:keys['teléfono']||keys['telefono']||keys['phone']||'',
+        email:keys['correo electrónico']||keys['correo electronico']||keys['email']||'',
+        city:keys['ciudad']||keys['city']||'',
+        service:keys['tipo de proyecto']||keys['service']||'',
+        value:'',address:'',source:'Sitio web',stage:'lead',
+        date:sub.created_at?sub.created_at.split('T')[0]:new Date().toISOString().split('T')[0],
+        createdAt:sub.created_at||new Date().toISOString(),
+        updatedAt:new Date().toISOString(),isNew:true,
+        notes:keys['cuéntanos sobre tu proyecto']||keys['message']?[{text:keys['cuéntanos sobre tu proyecto']||keys['message'],at:new Date(sub.created_at).toLocaleString()}]:[]
+      });
+      importedIds.push(sub.id);imported++;
+    }
+    save();saveImported();
+    localStorage.setItem('vs_last_sync',new Date().toLocaleString());
+    updateLastSync();render();
+    if(imported===0){result.className='sync-result info';result.textContent=`✓ Ya estás al día. Total en Netlify: ${subs.length}`;}
+    else{result.className='sync-result success';result.textContent=`✓ ${imported} lead${imported>1?'s':''} nuevo${imported>1?'s':''} importado${imported>1?'s':''}.`;toast(`${imported} lead${imported>1?'s':''} importado${imported>1?'s':''} desde Netlify`);}
+  }catch(err){result.className='sync-result error';result.textContent='✗ '+err.message;}
+  btn.textContent='↻  Sincronizar ahora';btn.disabled=false;
+}
+function updateLastSync(){const ls=localStorage.getItem('vs_last_sync');if(ls)document.getElementById('lastSyncLabel').textContent='Última sync: '+ls;}
+
+// ── STATS ──
+function renderStats(){
+  const total=leads.length;
+  const pipeline=leads.filter(l=>!['closed','lost'].includes(l.stage)).reduce((a,l)=>a+(Number(l.value)||0),0);
+  const proposals=leads.filter(l=>l.stage==='proposal').length;
+  const revenue=leads.filter(l=>l.stage==='closed').reduce((a,l)=>a+(Number(l.value)||0),0);
+  const closed=leads.filter(l=>l.stage==='closed').length;
+  document.getElementById('statsBar').innerHTML=`
+    <div class="stat"><div class="stat-label">Total Leads</div><div class="stat-value">${total}</div><div class="stat-sub">en el sistema</div></div>
+    <div class="stat"><div class="stat-label">Pipeline activo</div><div class="stat-value">${fmt$(pipeline)}</div><div class="stat-sub">en proceso</div></div>
+    <div class="stat"><div class="stat-label">Propuestas enviadas</div><div class="stat-value">${proposals}</div><div class="stat-sub">esperando respuesta</div></div>
+    <div class="stat"><div class="stat-label">Ingresos cerrados</div><div class="stat-value">${fmt$(revenue)}</div><div class="stat-sub">${closed} proyectos</div></div>`;
+}
+
+// ── BOARD ──
+function render(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const sf=document.getElementById('filterStage').value,cf=document.getElementById('filterCity').value;
+  const filtered=leads.filter(l=>{
+    const m=!q||l.name.toLowerCase().includes(q)||(l.phone||'').includes(q)||(l.service||'').toLowerCase().includes(q);
+    return m&&(!sf||l.stage===sf)&&(!cf||l.city===cf);
+  });
+  document.getElementById('board').innerHTML=STAGES.map(s=>{
+    const cards=filtered.filter(l=>l.stage===s.id);
+    return`<div class="column col-${s.id}">
+      <div class="col-header"><span class="col-title" style="color:${s.color}">${s.label}</span><span class="col-count">${cards.length}</span></div>
+      <div class="col-body" data-stage="${s.id}" ondragover="dragOver(event)" ondrop="drop(event)" ondragleave="dragLeave(event)">
+        ${cards.length===0?'<div class="empty"><p>Sin leads</p></div>':''}
+        ${cards.map(l=>`<div class="card${l.isNew?' is-new':''}" data-id="${l.id}" draggable="true" ondragstart="dragStart(event,'${l.id}')" onclick="openDetail('${l.id}')">
+          <div class="card-name">${l.name}${l.isNew?'<span class="new-badge">nuevo</span>':''}</div>
+          <div class="card-service">${l.service||'Sin tipo definido'}</div>
+          <div class="card-footer"><span class="card-city">${l.city||'—'}</span><span class="card-value">${fmt$(l.value)}</span></div>
+          <div class="card-date">${l.source?'📍 '+l.source+' · ':''}${fmtDate(l.date)}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  renderStats();
+}
+
+// ── DRAG DROP ──
+let dragId=null;
+function dragStart(e,id){dragId=id;e.target.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
+function dragOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+function dragLeave(e){e.currentTarget.classList.remove('drag-over');}
+function drop(e){
+  e.preventDefault();e.currentTarget.classList.remove('drag-over');
+  const stage=e.currentTarget.dataset.stage,lead=leads.find(l=>l.id===dragId);
+  if(lead&&lead.stage!==stage){lead.stage=stage;lead.updatedAt=new Date().toISOString();save();render();toast('Movido a: '+STAGES.find(s=>s.id===stage).label);}
+  dragId=null;
+}
+
+// ── ADD/EDIT ──
+function openAdd(){
+  editingId=null;
+  document.getElementById('addTitle').textContent='Nuevo Lead';
+  document.getElementById('addSubtitle').textContent='Ingresa los datos del cliente';
+  ['f_name','f_phone','f_email','f_value','f_address','f_notes'].forEach(id=>document.getElementById(id).value='');
+  ['f_city','f_service','f_source'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f_stage').value='lead';
+  document.getElementById('f_date').value=new Date().toISOString().split('T')[0];
+  openModal('addOverlay');
+}
+function openEdit(){
+  const l=leads.find(x=>x.id===viewingId);if(!l)return;
+  editingId=viewingId;
+  document.getElementById('addTitle').textContent='Editar Lead';
+  document.getElementById('addSubtitle').textContent=l.name;
+  document.getElementById('f_name').value=l.name||'';
+  document.getElementById('f_phone').value=l.phone||'';
+  document.getElementById('f_email').value=l.email||'';
+  document.getElementById('f_city').value=l.city||'';
+  document.getElementById('f_service').value=l.service||'';
+  document.getElementById('f_value').value=l.value||'';
+  document.getElementById('f_address').value=l.address||'';
+  document.getElementById('f_source').value=l.source||'';
+  document.getElementById('f_stage').value=l.stage||'lead';
+  document.getElementById('f_date').value=l.date||'';
+  document.getElementById('f_notes').value='';
+  closeModal('detailOverlay');openModal('addOverlay');
+}
+function saveLead(){
+  const name=document.getElementById('f_name').value.trim();
+  if(!name){alert('El nombre es requerido.');return;}
+  const data={name,phone:document.getElementById('f_phone').value.trim(),email:document.getElementById('f_email').value.trim(),city:document.getElementById('f_city').value,service:document.getElementById('f_service').value,value:document.getElementById('f_value').value,address:document.getElementById('f_address').value.trim(),source:document.getElementById('f_source').value,stage:document.getElementById('f_stage').value,date:document.getElementById('f_date').value,updatedAt:new Date().toISOString(),isNew:false};
+  const nt=document.getElementById('f_notes').value.trim();
+  if(editingId){const idx=leads.findIndex(l=>l.id===editingId);leads[idx]={...leads[idx],...data};if(nt)leads[idx].notes.push({text:nt,at:new Date().toLocaleString()});}
+  else{data.id=uid();data.createdAt=new Date().toISOString();data.notes=nt?[{text:nt,at:new Date().toLocaleString()}]:[];leads.unshift(data);}
+  save();render();closeModal('addOverlay');toast(editingId?'Lead actualizado':'Lead agregado');editingId=null;
+}
+
+// ── DETAIL ──
+function openDetail(id){
+  viewingId=id;const l=leads.find(x=>x.id===id);if(!l)return;
+  if(l.isNew){l.isNew=false;save();render();}
+  document.getElementById('d_name').textContent=l.name;
+  document.getElementById('d_service').textContent=l.service||'';
+  document.getElementById('d_phone').textContent=l.phone||'—';
+  document.getElementById('d_email').textContent=l.email||'—';
+  document.getElementById('d_city').textContent=l.city||'—';
+  document.getElementById('d_source').textContent=l.source||'—';
+  document.getElementById('d_address').textContent=l.address||'—';
+  document.getElementById('d_value').textContent=fmt$(l.value);
+  document.getElementById('d_date').textContent=fmtDate(l.date);
+  document.getElementById('d_stages').innerHTML=STAGES.map(s=>`<button class="stage-btn ${l.stage===s.id?'active':''}" onclick="changeStage('${s.id}')" style="${l.stage===s.id?'background:'+s.color+';border-color:'+s.color:''}">${s.label}</button>`).join('');
+  renderNotes(l);openModal('detailOverlay');
+}
+function renderNotes(l){
+  const nl=document.getElementById('d_notesList');
+  if(!l.notes||l.notes.length===0){nl.innerHTML='<li style="color:#bbb;font-size:13px;padding:8px 0">Sin notas aún</li>';return;}
+  nl.innerHTML=[...l.notes].reverse().map(n=>`<li class="note-item">${n.text}<div class="note-meta">${n.at}</div></li>`).join('');
+}
+function changeStage(stage){
+  const l=leads.find(x=>x.id===viewingId);if(!l)return;
+  l.stage=stage;l.updatedAt=new Date().toISOString();save();render();openDetail(viewingId);
+  toast('Etapa: '+STAGES.find(s=>s.id===stage).label);
+}
+function addNote(){
+  const input=document.getElementById('d_noteInput'),text=input.value.trim();if(!text)return;
+  const l=leads.find(x=>x.id===viewingId);if(!l)return;
+  if(!l.notes)l.notes=[];l.notes.push({text,at:new Date().toLocaleString()});
+  input.value='';save();render();renderNotes(l);toast('Nota agregada');
+}
+function deleteLead(){
+  if(!confirm('¿Eliminar este lead?'))return;
+  leads=leads.filter(l=>l.id!==viewingId);save();render();closeModal('detailOverlay');toast('Lead eliminado');viewingId=null;
+}
+
+// ── PROPOSAL ──
+function openProposal(){
+  const l=leads.find(x=>x.id===viewingId);if(!l)return;
+  document.getElementById('p_overview').value=`Proyecto de ${l.service||'paisajismo'} en ${l.address||l.city||'propiedad del cliente'}.`;
+  document.getElementById('p_scope').value='- Visita al sitio y medición\n- Demolición y preparación\n- Instalación de materiales\n- Limpieza y entrega final';
+  document.getElementById('p_materials').value='';
+  document.getElementById('p_exclusions').value='Permisos de construcción, trabajo eléctrico o plomería';
+  document.getElementById('p_start').value='';document.getElementById('p_end').value='';
+  document.getElementById('p_deposit').value=l.value?Math.round(l.value*0.3):'';
+  document.getElementById('p_balance').value=l.value?Math.round(l.value*0.7):'';
+  renderProposal();closeModal('detailOverlay');openModal('proposalOverlay');
+}
+function renderProposal(){
+  const l=leads.find(x=>x.id===viewingId);if(!l)return;
+  const today=new Date().toLocaleDateString('es-US',{year:'numeric',month:'long',day:'numeric'});
+  const propNum='VS-'+new Date().getFullYear()+'-'+String(leads.indexOf(l)+1).padStart(3,'0');
+  const ov=document.getElementById('p_overview').value,sc=document.getElementById('p_scope').value;
+  const mat=document.getElementById('p_materials').value,exc=document.getElementById('p_exclusions').value;
+  const ps=document.getElementById('p_start').value,pe=document.getElementById('p_end').value;
+  const dep=document.getElementById('p_deposit').value,bal=document.getElementById('p_balance').value;
+  const total=l.value?Number(l.value):((Number(dep)||0)+(Number(bal)||0));
+  document.getElementById('proposalDoc').innerHTML=`<div class="proposal-preview">
+    <div style="margin-bottom:32px">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 215" width="240" height="76">
+        <line x1="60" y1="25" x2="107" y2="122" stroke="#1F3525" stroke-width="7" stroke-linecap="round"/>
+        <line x1="154" y1="25" x2="107" y2="122" stroke="#1F3525" stroke-width="7" stroke-linecap="round"/>
+        <line x1="44" y1="143" x2="170" y2="143" stroke="#9C8570" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="60" y1="158" x2="154" y2="158" stroke="#9C8570" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="76" y1="171" x2="138" y2="171" stroke="#9C8570" stroke-width="2" stroke-linecap="round"/>
+        <line x1="200" y1="22" x2="200" y2="188" stroke="#C8BAA8" stroke-width="1"/>
+        <text x="224" y="108" font-family="Georgia,serif" font-size="52" fill="#1A1A1A" letter-spacing="7">VERDANT</text>
+        <text x="224" y="166" font-family="Georgia,serif" font-size="52" fill="#9C8570" letter-spacing="20">STONE</text>
+        <text x="226" y="187" font-family="Arial,sans-serif" font-size="11" fill="#9C8570" letter-spacing="4.5" opacity="0.85">LANDSCAPE CONSTRUCTION</text>
+      </svg>
+    </div>
+    <div class="prop-header">
+      <div class="prop-to"><h3>Preparado para</h3><p><strong>${l.name}</strong><br>${l.address?l.address+'<br>':''}${l.city?l.city+', CA<br>':''}${l.phone?l.phone+'<br>':''}${l.email||''}</p></div>
+      <div class="prop-meta"><strong>Propuesta #${propNum}</strong><br>Fecha: ${today}<br>Proyecto: ${l.service||'—'}<br>verdantstonelc.com</div>
+    </div>
+    ${ov?`<div class="prop-section"><h4>Descripción del proyecto</h4><p>${ov.replace(/\n/g,'<br>')}</p></div>`:''}
+    ${sc?`<div class="prop-section"><h4>Alcance del trabajo</h4><p>${sc.replace(/\n/g,'<br>')}</p></div>`:''}
+    ${mat?`<div class="prop-section"><h4>Materiales incluidos</h4><p>${mat.replace(/\n/g,'<br>')}</p></div>`:''}
+    <div class="prop-section"><h4>Inversión y plan de pago</h4>
+      <table class="prop-table"><thead><tr><th>Concepto</th><th>Monto</th></tr></thead><tbody>
+        <tr><td>Depósito para iniciar</td><td>${dep?'$'+Number(dep).toLocaleString():'—'}</td></tr>
+        <tr><td>Balance al completar</td><td>${bal?'$'+Number(bal).toLocaleString():'—'}</td></tr>
+        <tr class="prop-total"><td><strong>TOTAL</strong></td><td><strong>${total?'$'+Number(total).toLocaleString():'—'}</strong></td></tr>
+      </tbody></table>
+    </div>
+    ${(ps||pe)?`<div class="prop-section"><h4>Cronograma</h4><p>${ps?'Inicio: <strong>'+fmtDate(ps)+'</strong>':''} ${ps&&pe?'·':''} ${pe?'Fin: <strong>'+fmtDate(pe)+'</strong>':''}</p></div>`:''}
+    ${exc?`<div class="prop-section"><h4>Exclusiones</h4><p>${exc.replace(/\n/g,'<br>')}</p></div>`:''}
+    <div class="prop-section"><h4>Política de cambios</h4><p>Cualquier trabajo fuera del alcance original requerirá aprobación escrita y cotización adicional.</p></div>
+    <div class="prop-footer">
+      <div class="prop-sign"><h5>Aprobación del cliente</h5><div class="prop-sign-line">Firma &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fecha</div><p style="font-size:12px;color:#999;margin-top:8px">${l.name}</p></div>
+      <div class="prop-sign"><h5>Verdant Stone</h5><div class="prop-sign-line">Firma &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fecha</div><p style="font-size:12px;color:#999;margin-top:8px">Verdant Stone LLC · Central Valley, CA</p></div>
+    </div>
+    <div class="prop-tagline">verdantstonelc.com · Landscape Construction · Central Valley, California</div>
+  </div>`;
+}
+
+// ── EXPORT ──
+function exportCSV(){
+  const h=['Nombre','Teléfono','Email','Ciudad','Servicio','Valor','Etapa','Fuente','Fecha'];
+  const r=leads.map(l=>[l.name,l.phone,l.email,l.city,l.service,l.value,STAGES.find(s=>s.id===l.stage)?.label,l.source,l.date].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`));
+  const csv=[h,...r].map(r=>r.join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='verdant-stone-leads-'+new Date().toISOString().split('T')[0]+'.csv';a.click();toast('CSV exportado');
+}
+
+// ── MODALS ──
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+// ── TOAST ──
+let toastT;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3000);}
+
+// ── INIT ──
+updateSyncDot();updateLastSync();render();
+</script>
+</body>
+</html>
