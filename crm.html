@@ -353,11 +353,19 @@ async function syncNow(){
   btn.textContent='⏳  Sincronizando...';btn.disabled=true;
   result.className='sync-result info';result.textContent='Buscando formulario...';
   try{
-    const fr=await fetch('https://api.netlify.com/api/v1/forms',{headers:{'Authorization':`Bearer ${token}`}});
-    if(!fr.ok)throw new Error('Token inválido (error '+fr.status+')');
+    // Buscar sitio por dominio
+    result.textContent='Buscando sitio verdantstonelc.com...';
+    const sr2=await fetch('https://api.netlify.com/api/v1/sites?per_page=100',{headers:{'Authorization':`Bearer ${token}`}});
+    if(!sr2.ok)throw new Error('Token inválido (error '+sr2.status+'). Verifica que el token sea correcto.');
+    const sites=await sr2.json();
+    const site=sites.find(s=>s.name==='verdantstonelc'||(s.custom_domain||'').includes('verdantstonelc')||(s.default_domain||'').includes('verdantstonelc'));
+    if(!site)throw new Error('No se encontró el sitio verdantstonelc.com en tu cuenta de Netlify.');
+    result.textContent='Sitio encontrado. Buscando formulario...';
+    const fr=await fetch(`https://api.netlify.com/api/v1/sites/${site.id}/forms`,{headers:{'Authorization':`Bearer ${token}`}});
+    if(!fr.ok)throw new Error('Error al obtener formularios: '+fr.status);
     const forms=await fr.json();
     const form=forms.find(f=>f.name==='cotizacion');
-    if(!form){result.className='sync-result error';result.textContent='No se encontró el formulario "cotizacion". ¿Ya se recibió alguna cotización?';btn.textContent='↻  Sincronizar ahora';btn.disabled=false;return;}
+    if(!form){result.className='sync-result error';result.textContent='No se encontró el formulario "cotizacion". ¿Ya se recibió alguna cotización en el sitio?';btn.textContent='↻  Sincronizar ahora';btn.disabled=false;return;}
     result.textContent='Formulario encontrado. Descargando envíos...';
     const sr=await fetch(`https://api.netlify.com/api/v1/forms/${form.id}/submissions?per_page=100`,{headers:{'Authorization':`Bearer ${token}`}});
     if(!sr.ok)throw new Error('Error al obtener envíos: '+sr.status);
